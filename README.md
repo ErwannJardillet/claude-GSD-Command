@@ -1,573 +1,666 @@
-# claude-GSD-Command
+# GSD — Get Shit Done · Cheatsheet
 
-GSD (Get Shit Done) creates hierarchical project plans optimized for solo agentic development with Claude Code.                                                                                                   
-                                                                                                                                                                                                                    
-  Quick Start                                                                                                                                                                                                       
-                                                                                                                                                                                                                    
-  1. /gsd:new-project - Initialize project (includes research, requirements, roadmap)                                                                                                                               
-  2. /gsd:plan-phase 1 - Create detailed plan for first phase                                                                 
-  3. /gsd:execute-phase 1 - Execute the phase                                                                                                                                                                       
-                                                                                                                                                                                                                    
-  Staying Updated                                                                                                                                                                                                   
-                                                                                                                                                                                                                    
-  GSD evolves fast. Update periodically:                                                                                                                                                                            
-                                                                                                                              
-  npx get-shit-done-cc@latest                                                                                                                                                                                       
-                                                                                                                                                                                                                    
-  Core Workflow                                                                                                               
-                                                                                                                                                                                                                    
-  /gsd:new-project → /gsd:plan-phase → /gsd:execute-phase → repeat                                                            
-                                                                                                                                                                                                                    
-  Project Initialization                                                                                    
-                                                                                                                                                                                                                    
-  /gsd:new-project                                                                                                            
-  Initialize new project through unified flow.                                                                                
-                                                                                                                                                                                                                    
-  One command takes you from idea to ready-for-planning:                                                                                                                                                            
-  - Deep questioning to understand what you're building                                                                                                                                                             
-  - Optional domain research (spawns 4 parallel researcher agents)                                                                                                                                                  
-  - Requirements definition with v1/v2/out-of-scope scoping                                                                   
-  - Roadmap creation with phase breakdown and success criteria                                                                                                                                                      
-                                                                                                                                                                                                                    
-  Creates all .planning/ artifacts:                                                                                                                                                                                 
-  - PROJECT.md — vision and requirements                                                                                                                                                                            
-  - config.json — workflow mode (interactive/yolo)                                                                                                                                                                  
-  - research/ — domain research (if selected)                                                                                 
-  - REQUIREMENTS.md — scoped requirements with REQ-IDs                                                                                                                                                              
-  - ROADMAP.md — phases mapped to requirements                                                                                                                                                                      
-  - STATE.md — project memory                                                                                                                                                                                       
-                                                                                                                                                                                                                    
-  Usage: /gsd:new-project                                                                                                                                                                                           
-                                                                                                                              
-  /gsd:map-codebase                                                                                                                                                                                                 
-  Map an existing codebase for brownfield projects.                                                                           
-                                                                                                                                                                                                                    
-  - Analyzes codebase with parallel Explore agents                                                                                                                                                                  
-  - Creates .planning/codebase/ with 7 focused documents                                                                                                                                                            
-  - Covers stack, architecture, structure, conventions, testing, integrations, concerns                                                                                                                             
-  - Use before /gsd:new-project on existing codebases                                                                         
-                                                                                                                                                                                                                    
-  Usage: /gsd:map-codebase                                                                                                    
-                                                                                                                                                                                                                    
-  Phase Planning                                                                                                              
-                                                                                                                              
-  /gsd:discuss-phase <number>                                                                                                                                                                                       
-  Help articulate your vision for a phase before planning.                                                  
-                                                                                                                                                                                                                    
-  - Captures how you imagine this phase working                                                                                                                                                                     
-  - Creates CONTEXT.md with your vision, essentials, and boundaries                                                           
-  - Use when you have ideas about how something should look/feel                                                                                                                                                    
-  - Optional --batch asks 2-5 related questions at a time instead of one-by-one                                                                                                                                     
-                                                                                                                                                                                                                    
-  Usage: /gsd:discuss-phase 2                                                                                                                                                                                       
-  Usage: /gsd:discuss-phase 2 --batch                                                                                                                                                                               
-  Usage: /gsd:discuss-phase 2 --batch=3                                                                                                                                                                             
-                                                                                                                              
-  /gsd:research-phase <number>                                                                                                                                                                                      
-  Comprehensive ecosystem research for niche/complex domains.                                               
-                                                                                                                                                                                                                    
-  - Discovers standard stack, architecture patterns, pitfalls                                                                                                                                                       
-  - Creates RESEARCH.md with "how experts build this" knowledge                                                                                                                                                     
-  - Use for 3D, games, audio, shaders, ML, and other specialized domains                                                                                                                                            
-  - Goes beyond "which library" to ecosystem knowledge                                                                                                                                                              
-                                                                                                                                                                                                                    
-  Usage: /gsd:research-phase 3                                                                                                                                                                                      
-                                                                                                                                                                                                                    
-  /gsd:list-phase-assumptions <number>                                                                                                                                                                              
-  See what Claude is planning to do before it starts.                                                                         
-                                                                                                                                                                                                                    
-  - Shows Claude's intended approach for a phase                                                                                                                                                                    
-  - Lets you course-correct if Claude misunderstood your vision                                                                                                                                                     
-  - No files created - conversational output only                                                                                                                                                                   
-                                                                                                                              
-  Usage: /gsd:list-phase-assumptions 3                                                                                                                                                                              
-                                                                                                                              
-  /gsd:plan-phase <number>                                                                                                                                                                                          
-  Create detailed execution plan for a specific phase.                                                                        
-                                                                                                                              
-  - Generates .planning/phases/XX-phase-name/XX-YY-PLAN.md                                                                                                                                                          
-  - Breaks phase into concrete, actionable tasks                                                            
-  - Includes verification criteria and success measures                                                                                                                                                             
-  - Multiple plans per phase supported (XX-01, XX-02, etc.)                                                                   
-                                                                                                                                                                                                                    
-  Usage: /gsd:plan-phase 1                                                                                                    
-  Result: Creates .planning/phases/01-foundation/01-01-PLAN.md                                                                                                                                                      
-                                                                                                                                                                                                                    
-  PRD Express Path: Pass --prd path/to/requirements.md to skip discuss-phase entirely. Your PRD becomes locked decisions in CONTEXT.md. Useful when you already have clear acceptance criteria.                     
-                                                                                                                                                                                                                    
-  Execution                                                                                                                                                                                                         
-                                                                                                                              
-  /gsd:execute-phase <phase-number>                                                                                           
-  Execute all plans in a phase, or run a specific wave.                                                     
-                                                                                                                                                                                                                    
-  - Groups plans by wave (from frontmatter), executes waves sequentially                                                                                                                                            
-  - Plans within each wave run in parallel via Task tool                                                                                                                                                            
-  - Optional --wave N flag executes only Wave N and stops unless the phase is now fully complete                                                                                                                    
-  - Verifies phase goal after all plans complete                                                                                                                                                                    
-  - Updates REQUIREMENTS.md, ROADMAP.md, STATE.md                                                                                                                                                                   
-                                                                                                                                                                                                                    
-  Usage: /gsd:execute-phase 5                                                                                                                                                                                       
-  Usage: /gsd:execute-phase 5 --wave 2                                                                                                                                                                              
-                                                                                                                              
-  Smart Router                                                                                                                                                                                                      
-                                                                                                            
-  /gsd:do <description>                                                                                                                                                                                             
-  Route freeform text to the right GSD command automatically.                                                                 
-                                                                                                                                                                                                                    
-  - Analyzes natural language input to find the best matching GSD command                                                                                                                                           
-  - Acts as a dispatcher — never does the work itself                                                                                                                                                               
-  - Resolves ambiguity by asking you to pick between top matches                                                                                                                                                    
-  - Use when you know what you want but don't know which /gsd:* command to run                                                
-                                                                                                                                                                                                                    
-  Usage: /gsd:do fix the login button                                                                                         
-  Usage: /gsd:do refactor the auth system                                                                                                                                                                           
-  Usage: /gsd:do I want to start a new milestone                                                                                                                                                                    
-                                                                                                                              
-  Quick Mode                                                                                                                                                                                                        
-                                                                                                                              
-  /gsd:quick [--full] [--discuss] [--research]                                                                                                                                                                      
-  Execute small, ad-hoc tasks with GSD guarantees but skip optional agents.                                                   
-                                                                                                                                                                                                                    
-  Quick mode uses the same system with a shorter path:                                                                                                                                                              
-  - Spawns planner + executor (skips researcher, checker, verifier by default)                                                                                                                                      
-  - Quick tasks live in .planning/quick/ separate from planned phases                                                                                                                                               
-  - Updates STATE.md tracking (not ROADMAP.md)                                                                                
-                                                                                                                                                                                                                    
-  Flags enable additional quality steps:                                                                                                                                                                            
-  - --discuss — Lightweight discussion to surface gray areas before planning                                                                                                                                        
-  - --research — Focused research agent investigates approaches before planning                                                                                                                                     
-  - --full — Adds plan-checking (max 2 iterations) and post-execution verification                                            
-                                                                                                                                                                                                                    
-  Flags are composable: --discuss --research --full gives the complete quality pipeline for a single task.                                                                                                          
-                                                                                                                                                                                                                    
-  Usage: /gsd:quick                                                                                                                                                                                                 
-  Usage: /gsd:quick --research --full                                                                                                                                                                               
-  Result: Creates .planning/quick/NNN-slug/PLAN.md, .planning/quick/NNN-slug/SUMMARY.md                                       
-                                                                                                                                                                                                                    
-  ---                                                                                                       
-  /gsd:fast [description]                                                                                                                                                                                           
-  Execute a trivial task inline — no subagents, no planning files, no overhead.                                                                                                                                     
-                                                                                                                              
-  For tasks too small to justify planning: typo fixes, config changes, forgotten commits, simple additions. Runs in the current context, makes the change, commits, and logs to STATE.md.                           
-                                                                                                                                                                                                                    
-  - No PLAN.md or SUMMARY.md created                                                                                                                                                                                
-  - No subagent spawned (runs inline)                                                                                                                                                                               
-  - ≤ 3 file edits — redirects to /gsd:quick if task is non-trivial                                                                                                                                                 
-  - Atomic commit with conventional message                                                                                                                                                                         
-                                                                                                                                                                                                                    
-  Usage: /gsd:fast "fix the typo in README"                                                                                                                                                                         
-  Usage: /gsd:fast "add .env to gitignore"                                                                                                                                                                          
-                                                                                                                                                                                                                    
-  Roadmap Management                                                                                                          
-                                                                                                                                                                                                                    
-  /gsd:add-phase <description>                                                                                                                                                                                      
-  Add new phase to end of current milestone.                                                                                  
-                                                                                                                                                                                                                    
-  - Appends to ROADMAP.md                                                                                                                                                                                           
-  - Uses next sequential number                                                                                               
-  - Updates phase directory structure                                                                                                                                                                               
-                                                                                                                              
-  Usage: /gsd:add-phase "Add admin dashboard"                                                                                                                                                                       
-                                                                                                            
-  /gsd:insert-phase <after> <description>                                                                                                                                                                           
-  Insert urgent work as decimal phase between existing phases.                                                                
-                                                                                                                                                                                                                    
-  - Creates intermediate phase (e.g., 7.1 between 7 and 8)                                                                                                                                                          
-  - Useful for discovered work that must happen mid-milestone                                                                                                                                                       
-  - Maintains phase ordering                                                                                                                                                                                        
-                                                                                                                              
-  Usage: /gsd:insert-phase 7 "Fix critical auth bug"                                                                                                                                                                
-  Result: Creates Phase 7.1                                                                                                   
-                                                                                                                                                                                                                    
-  /gsd:remove-phase <number>                                                                                                  
-  Remove a future phase and renumber subsequent phases.                                                                       
-                                                                                                                                                                                                                    
-  - Deletes phase directory and all references                                                                                                                                                                      
-  - Renumbers all subsequent phases to close the gap                                                                                                                                                                
-  - Only works on future (unstarted) phases                                                                                                                                                                         
-  - Git commit preserves historical record                                                                                                                                                                          
-                                                                                                                                                                                                                    
-  Usage: /gsd:remove-phase 17                                                                                                                                                                                       
-  Result: Phase 17 deleted, phases 18-20 become 17-19                                                                                                                                                               
-                                                                                                                                                                                                                    
-  Milestone Management                                                                                                        
-                                                                                                                                                                                                                    
-  /gsd:new-milestone <name>                                                                                                                                                                                         
-  Start a new milestone through unified flow.                                                                                 
-                                                                                                                                                                                                                    
-  - Deep questioning to understand what you're building next                                                                  
-  - Optional domain research (spawns 4 parallel researcher agents)                                                            
-  - Requirements definition with scoping                                                                                                                                                                            
-  - Roadmap creation with phase breakdown                                                                   
-  - Optional --reset-phase-numbers flag restarts numbering at Phase 1 and archives old phase dirs first for safety                                                                                                  
-                                                                                                                                                                                                                    
-  Mirrors /gsd:new-project flow for brownfield projects (existing PROJECT.md).                                                                                                                                      
-                                                                                                                                                                                                                    
-  Usage: /gsd:new-milestone "v2.0 Features"                                                                                                                                                                         
-  Usage: /gsd:new-milestone --reset-phase-numbers "v2.0 Features"                                                             
-                                                                                                                                                                                                                    
-  /gsd:complete-milestone <version>                                                                         
-  Archive completed milestone and prepare for next version.                                                                                                                                                         
-                                                                                                                                                                                                                    
-  - Creates MILESTONES.md entry with stats                                                                                    
-  - Archives full details to milestones/ directory                                                                                                                                                                  
-  - Creates git tag for the release                                                                                                                                                                                 
-  - Prepares workspace for next version                                                                                                                                                                             
-                                                                                                                                                                                                                    
-  Usage: /gsd:complete-milestone 1.0.0                                                                                                                                                                              
-                                                                                                                              
-  Progress Tracking                                                                                                                                                                                                 
-                                                                                                            
-  /gsd:progress                                                                                                                                                                                                     
-  Check project status and intelligently route to next action.                                                                
-                                                                                                                              
-  - Shows visual progress bar and completion percentage                                                                                                                                                             
-  - Summarizes recent work from SUMMARY files                                                               
-  - Displays current position and what's next                                                                                                                                                                       
-  - Lists key decisions and open issues                                                                                       
-  - Offers to execute next plan or create it if missing                                                                                                                                                             
-  - Detects 100% milestone completion                                                                                                                                                                               
-                                                                                                                                                                                                                    
-  Usage: /gsd:progress                                                                                                                                                                                              
-                                                                                                                                                                                                                    
-  Session Management                                                                                                          
-                                                                                                                              
-  /gsd:resume-work                                                                                          
-  Resume work from previous session with full context restoration.                                          
-                                                                                                                                                                                                                    
-  - Reads STATE.md for project context
-  - Shows current position and recent progress                                                                                                                                                                      
-  - Offers next actions based on project state                                                                                                                                                                      
-                                                                                                                                                                                                                    
-  Usage: /gsd:resume-work                                                                                                                                                                                           
-                                                                                                                                                                                                                    
-  /gsd:pause-work                                                                                                             
-  Create context handoff when pausing work mid-phase.                                                                         
-                                                                                                                                                                                                                    
-  - Creates .continue-here file with current state                                                                                                                                                                  
-  - Updates STATE.md session continuity section                                                                                                                                                                     
-  - Captures in-progress work context                                                                                                                                                                               
-                                                                                                                                                                                                                    
-  Usage: /gsd:pause-work                                                                                                      
-                                                                                                                                                                                                                    
-  Debugging                                                                                                                   
-                                                                                                                              
-  /gsd:debug [issue description]                                                                                                                                                                                    
-  Systematic debugging with persistent state across context resets.                                         
-                                                                                                                                                                                                                    
-  - Gathers symptoms through adaptive questioning                                                                             
-  - Creates .planning/debug/[slug].md to track investigation                                                                                                                                                        
-  - Investigates using scientific method (evidence → hypothesis → test)                                                                                                                                             
-  - Survives /clear — run /gsd:debug with no args to resume                                                                                                                                                         
-  - Archives resolved issues to .planning/debug/resolved/                                                                                                                                                           
-                                                                                                                                                                                                                    
-  Usage: /gsd:debug "login button doesn't work"                                                                                                                                                                     
-  Usage: /gsd:debug (resume active session)                                                                                   
-                                                                                                                                                                                                                    
-  Quick Notes                                                                                                                                                                                                       
-                                                                                                                              
-  /gsd:note <text>                                                                                                                                                                                                  
-  Zero-friction idea capture — one command, instant save, no questions.                                                       
-                                                                                                                                                                                                                    
-  - Saves timestamped note to .planning/notes/ (or $HOME/.claude/notes/ globally)                                                                                                                                   
-  - Three subcommands: append (default), list, promote                                                                                                                                                              
-  - Promote converts a note into a structured todo                                                                                                                                                                  
-  - Works without a project (falls back to global scope)                                                                                                                                                            
-                                                                                                                                                                                                                    
-  Usage: /gsd:note refactor the hook system                                                                                                                                                                         
-  Usage: /gsd:note list                                                                                                                                                                                             
-  Usage: /gsd:note promote 3                                                                                                  
-  Usage: /gsd:note --global cross-project idea                                                                                                                                                                      
-                                                                                                            
-  Todo Management                                                                                                                                                                                                   
-                                                                                                                              
-  /gsd:add-todo [description]                                                                                                                                                                                       
-  Capture idea or task as todo from current conversation.                                                                     
-                                                                                                                                                                                                                    
-  - Extracts context from conversation (or uses provided description)                                                                                                                                               
-  - Creates structured todo file in .planning/todos/pending/                                                                                                                                                        
-  - Infers area from file paths for grouping                                                                                                                                                                        
-  - Checks for duplicates before creating                                                                                                                                                                           
-  - Updates STATE.md todo count                                                                                                                                                                                     
-                                                                                                                                                                                                                    
-  Usage: /gsd:add-todo (infers from conversation)                                                                                                                                                                   
-  Usage: /gsd:add-todo Add auth token refresh                                                                                 
-                                                                                                                                                                                                                    
-  /gsd:check-todos [area]                                                                                                                                                                                           
-  List pending todos and select one to work on.                                                                               
-                                                                                                                                                                                                                    
-  - Lists all pending todos with title, area, age                                                                                                                                                                   
-  - Optional area filter (e.g., /gsd:check-todos api)                                                                         
-  - Loads full context for selected todo                                                                                                                                                                            
-  - Routes to appropriate action (work now, add to phase, brainstorm)                                                                                                                                               
-  - Moves todo to done/ when work begins                                                                                                                                                                            
-                                                                                                                                                                                                                    
-  Usage: /gsd:check-todos                                                                                                                                                                                           
-  Usage: /gsd:check-todos api                                                                                                                                                                                       
-                                                                                                                              
-  User Acceptance Testing                                                                                                                                                                                           
-                                                                                                            
-  /gsd:verify-work [phase]                                                                                                                                                                                          
-  Validate built features through conversational UAT.                                                                         
-                                                                                                                                                                                                                    
-  - Extracts testable deliverables from SUMMARY.md files                                                                                                                                                            
-  - Presents tests one at a time (yes/no responses)                                                                                                                                                                 
-  - Automatically diagnoses failures and creates fix plans                                                                                                                                                          
-  - Ready for re-execution if issues found                                                                                                                                                                          
-                                                                                                                                                                                                                    
-  Usage: /gsd:verify-work 3                                                                                                                                                                                         
-                                                                                                                              
-  Ship Work                                                                                                                                                                                                         
-                                                                                                                              
-  /gsd:ship [phase]                                                                                                           
-  Create a PR from completed phase work with an auto-generated body.                                        
-                                                                                                                                                                                                                    
-  - Pushes branch to remote
-  - Creates PR with summary from SUMMARY.md, VERIFICATION.md, REQUIREMENTS.md                                                                                                                                       
-  - Optionally requests code review                                                                                                                                                                                 
-  - Updates STATE.md with shipping status                                                                                     
-                                                                                                                                                                                                                    
-  Prerequisites: Phase verified, gh CLI installed and authenticated.                                                                                                                                                
-                                                                                                                              
-  Usage: /gsd:ship 4 or /gsd:ship 4 --draft                                                                                                                                                                         
-                                                                                                                              
-  ---                                                                                                                         
-  /gsd:review --phase N [--gemini] [--claude] [--codex] [--all]                                             
-  Cross-AI peer review — invoke external AI CLIs to independently review phase plans.                                                                                                                               
-   
-  - Detects available CLIs (gemini, claude, codex)                                                                                                                                                                  
-  - Each CLI reviews plans independently with the same structured prompt                                                      
-  - Produces REVIEWS.md with per-reviewer feedback and consensus summary                                                                                                                                            
-  - Feed reviews back into planning: /gsd:plan-phase N --reviews                                                                                                                                                    
-                                                                                                                                                                                                                    
-  Usage: /gsd:review --phase 3 --all                                                                                                                                                                                
-                                                                                                                                                                                                                    
-  ---                                                                                                                                                                                                               
-  /gsd:pr-branch [target]                                                                                                     
-  Create a clean branch for pull requests by filtering out .planning/ commits.                                                
-                                                                                                            
-  - Classifies commits: code-only (include), planning-only (exclude), mixed (include sans .planning/)                                                                                                               
-  - Cherry-picks code commits onto a clean branch                                                                                                                                                                   
-  - Reviewers see only code changes, no GSD artifacts                                                                                                                                                               
-                                                                                                                                                                                                                    
-  Usage: /gsd:pr-branch or /gsd:pr-branch main                                                                                
-                                                                                                                              
-  ---                                                                                                       
-  /gsd:plant-seed [idea]                                                                                    
-  Capture a forward-looking idea with trigger conditions for automatic surfacing.
-                                                                                 
-  - Seeds preserve WHY, WHEN to surface, and breadcrumbs to related code                                                                                                                                            
-  - Auto-surfaces during /gsd:new-milestone when trigger conditions match                                                                                                                                           
-  - Better than deferred items — triggers are checked, not forgotten                                                                                                                                                
-                                                                                                                                                                                                                    
-  Usage: /gsd:plant-seed "add real-time notifications when we build the events system"                                                                                                                              
-                                                                                                                                                                                                                    
-  ---                                                                                                                                                                                                               
-  /gsd:audit-uat                                                                                                              
-  Cross-phase audit of all outstanding UAT and verification items.                                                                                                                                                  
-  - Scans every phase for pending, skipped, blocked, and human_needed items                                 
-  - Cross-references against codebase to detect stale documentation                                                                                                                                                 
-  - Produces prioritized human test plan grouped by testability                                                                                                                                                     
-  - Use before starting a new milestone to clear verification debt                                                                                                                                                  
-                                                                                                                                                                                                                    
-  Usage: /gsd:audit-uat                                                                                                                                                                                             
-                                                                                                                                                                                                                    
-  Milestone Auditing                                                                                                                                                                                                
-                                                                                                                              
-  /gsd:audit-milestone [version]                                                                                                                                                                                    
-  Audit milestone completion against original intent.                                                       
-                                                                                                                                                                                                                    
-  - Reads all phase VERIFICATION.md files                                                                                                                                                                           
-  - Checks requirements coverage                                                                                              
-  - Spawns integration checker for cross-phase wiring                                                                                                                                                               
-  - Creates MILESTONE-AUDIT.md with gaps and tech debt                                                                                                                                                              
-                                                                                                                              
-  Usage: /gsd:audit-milestone                                                                                                                                                                                       
-                                                                                                                              
-  /gsd:plan-milestone-gaps                                                                                                                                                                                          
-  Create phases to close gaps identified by audit.                                                                            
-                                                                                                                                                                                                                    
-  - Reads MILESTONE-AUDIT.md and groups gaps into phases                                                                                                                                                            
-  - Prioritizes by requirement priority (must/should/nice)                                                                                                                                                          
-  - Adds gap closure phases to ROADMAP.md                                                                                                                                                                           
-  - Ready for /gsd:plan-phase on new phases                                                                                                                                                                         
-                                                                                                                                                                                                                    
-  Usage: /gsd:plan-milestone-gaps                                                                                                                                                                                   
-                                                                                                                              
-  Configuration                                                                                                               
-                                                                                                            
-  /gsd:settings                                                                                             
-  Configure workflow toggles and model profile interactively.
-                                                                                                                                                                                                                    
-  - Toggle researcher, plan checker, verifier agents                                                                                                                                                                
-  - Select model profile (quality/balanced/budget/inherit)                                                                                                                                                          
-  - Updates .planning/config.json                                                                                                                                                                                   
-                                                                                                                                                                                                                    
-  Usage: /gsd:settings                                                                                                        
-                                                                                                                                                                                                                    
-  /gsd:set-profile <profile>                                                                                                  
-  Quick switch model profile for GSD agents.                                                                                  
-                                                                                                            
-  - quality — Opus everywhere except verification                                                           
-  - balanced — Opus for planning, Sonnet for execution (default)
-  - budget — Sonnet for writing, Haiku for research/verification                                                                                                                                                    
-  - inherit — Use current session model for all agents (OpenCode /model)
-                                                                                                                                                                                                                    
-  Usage: /gsd:set-profile budget                                                                                              
-                                                                                                                                                                                                                    
-  Utility Commands                                                                                                            
-                                                                                                                              
-  /gsd:cleanup                                                                                              
-  Archive accumulated phase directories from completed milestones.                                          
-                                                                                                                                                                                                                    
-  - Identifies phases from completed milestones still in .planning/phases/
-  - Shows dry-run summary before moving anything                                                                                                                                                                    
-  - Moves phase dirs to .planning/milestones/v{X.Y}-phases/                                                                                                                                                         
-  - Use after multiple milestones to reduce .planning/phases/ clutter                                                                                                                                               
-                                                                                                                                                                                                                    
-  Usage: /gsd:cleanup                                                                                                                                                                                               
-                                                                                                                              
-  /gsd:help                                                                                                                                                                                                         
-  Show this command reference.                                                                                                
-                                                                                                                              
-  /gsd:update                                                                                               
-  Update GSD to latest version with changelog preview.                                                      
+> Système de planification hiérarchique pour le développement agentique solo avec Claude Code.
 
-  - Shows installed vs latest version comparison                                                                                                                                                                    
-  - Displays changelog entries for versions you've missed
-  - Highlights breaking changes                                                                                                                                                                                     
-  - Confirms before running install                                                                                                                                                                                 
-  - Better than raw npx get-shit-done-cc                                                                                      
-                                                                                                                                                                                                                    
-  Usage: /gsd:update                                                                                                          
-                                                                                                                              
-  /gsd:join-discord                                                                                         
-  Join the GSD Discord community.                                                                           
+---
 
-  - Get help, share what you're building, stay updated                                                                                                                                                              
-  - Connect with other GSD users
-                                                                                                                                                                                                                    
-  Usage: /gsd:join-discord                                                                                                    
-                                                                                                                                                                                                                    
-  Files & Structure                                                                                                           
-                                                                                                                              
-  .planning/                                                                                                
-  ├── PROJECT.md            # Project vision                                                                
-  ├── ROADMAP.md            # Current phase breakdown                                                                                                                                                               
-  ├── STATE.md              # Project memory & context
-  ├── RETROSPECTIVE.md      # Living retrospective (updated per milestone)                                                                                                                                          
-  ├── config.json           # Workflow mode & gates                                                                                                                                                                 
-  ├── todos/                # Captured ideas and tasks                                                                        
-  │   ├── pending/          # Todos waiting to be worked on                                                                                                                                                         
-  │   └── done/             # Completed todos                                                                                                                                                                       
-  ├── debug/                # Active debug sessions                                                                           
-  │   └── resolved/         # Archived resolved issues                                                                                                                                                              
-  ├── milestones/                                                                                                                                                                                                   
-  │   ├── v1.0-ROADMAP.md       # Archived roadmap snapshot                                                                   
-  │   ├── v1.0-REQUIREMENTS.md  # Archived requirements                                                                                                                                                             
-  │   └── v1.0-phases/          # Archived phase dirs (via /gsd:cleanup or --archive-phases)                                                                                                                        
-  │       ├── 01-foundation/                                                                                                  
-  │       └── 02-core-features/                                                                                                                                                                                     
-  ├── codebase/             # Codebase map (brownfield projects)                                                              
-  │   ├── STACK.md          # Languages, frameworks, dependencies                                                                                                                                                   
-  │   ├── ARCHITECTURE.md   # Patterns, layers, data flow                                                                                                                                                           
-  │   ├── STRUCTURE.md      # Directory layout, key files                                                                     
-  │   ├── CONVENTIONS.md    # Coding standards, naming                                                                                                                                                              
-  │   ├── TESTING.md        # Test setup, patterns                                                                            
-  │   ├── INTEGRATIONS.md   # External services, APIs                                                                                                                                                               
-  │   └── CONCERNS.md       # Tech debt, known issues                                                       
-  └── phases/                                                                                                                                                                                                       
-      ├── 01-foundation/                                                                                                      
-      │   ├── 01-01-PLAN.md                                                                                                   
-      │   └── 01-01-SUMMARY.md                                                                                                                                                                                      
-      └── 02-core-features/                                                                                 
-          ├── 02-01-PLAN.md                                                                                                                                                                                         
-          └── 02-01-SUMMARY.md                                                                                                
-                                                                                                                                                                                                                    
-  Workflow Modes                                                                                            
-                                                                                                                                                                                                                    
-  Set during /gsd:new-project:                                                                                                
-                                                                                                                              
-  Interactive Mode                                                                                          
-  - Confirms each major decision                                                                            
-  - Pauses at checkpoints for approval                                                                                                                                                                              
-  - More guidance throughout          
-                                                                                                                                                                                                                    
-  YOLO Mode                                                                                                                   
-  - Auto-approves most decisions                                                                                                                                                                                    
-  - Executes plans without confirmation                                                                     
-  - Only stops for critical checkpoints                                                                                                                                                                             
-                                                                                                                              
-  Change anytime by editing .planning/config.json                                                                             
-                                                                                                                                                                                                                    
-  Planning Configuration                                                                                    
-                                                                                                                                                                                                                    
-  Configure how planning artifacts are managed in .planning/config.json:                                                                                                                                            
-                                                                                                                              
-  planning.commit_docs (default: true)                                                                                                                                                                              
-  - true: Planning artifacts committed to git (standard workflow)                                                             
-  - false: Planning artifacts kept local-only, not committed                                                                                                                                                        
-                                                                                                            
-  When commit_docs: false:                                                                                                                                                                                          
-  - Add .planning/ to your .gitignore                                                                                         
-  - Useful for OSS contributions, client projects, or keeping planning private                                                
-  - All planning files still work normally, just not tracked in git                                         
-                                                                                                                                                                                                                    
-  planning.search_gitignored (default: false)
-  - true: Add --no-ignore to broad ripgrep searches                                                                                                                                                                 
-  - Only needed when .planning/ is gitignored and you want project-wide searches to include it                                
-                                                                                                                                                                                                                    
-  Example config:                                                                                                                                                                                                   
-  {                                                                                                                           
-    "planning": {                                                                                                                                                                                                   
-      "commit_docs": false,                                                                                                   
-      "search_gitignored": true                                                                                               
-    }                                                                                                       
-  }                                                                                                                                                                                                                 
-   
-  Common Workflows                                                                                                                                                                                                  
-                                                                                                                              
-  Starting a new project:                                                                                                     
-                                                                                                            
-  /gsd:new-project        # Unified flow: questioning → research → requirements → roadmap                   
-  /clear                                                                                                                                                                                                            
-  /gsd:plan-phase 1       # Create plans for first phase
-  /clear                                                                                                                                                                                                            
-  /gsd:execute-phase 1    # Execute all plans in phase                                                                        
-                                                                                                                                                                                                                    
-  Resuming work after a break:                                                                              
-                                                                                                                                                                                                                    
-  /gsd:progress  # See where you left off and continue                                                                        
-                                                                                                                                                                                                                    
-  Adding urgent mid-milestone work:                                                                         
-                                                                                                                                                                                                                    
-  /gsd:insert-phase 5 "Critical security fix"                                                                                 
-  /gsd:plan-phase 5.1                                                                                                         
-  /gsd:execute-phase 5.1                                                                                                                                                                                            
-                                                                                                            
-  Completing a milestone:                                                                                                                                                                                           
-                                                                                                                              
-  /gsd:complete-milestone 1.0.0                                                                                               
-  /clear                                                                                                    
-  /gsd:new-milestone  # Start next milestone (questioning → research → requirements → roadmap)              
-                                                                                                                                                                                                                    
-  Capturing ideas during work:
-                                                                                                                                                                                                                    
-  /gsd:add-todo                    # Capture from conversation context                                                        
-  /gsd:add-todo Fix modal z-index  # Capture with explicit description                                                                                                                                              
-  /gsd:check-todos                 # Review and work on todos                                               
-  /gsd:check-todos api             # Filter by area                                                                                                                                                                 
-                                                                                                                                                                                                                    
-  Debugging an issue:                                                                                                         
-                                                                                                                                                                                                                    
-  /gsd:debug "form submission fails silently"  # Start debug session                                                          
-  # ... investigation happens, context fills up ...                                                                           
-  /clear                                                                                                                                                                                                            
-  /gsd:debug                                    # Resume from where you left off                            
-                                                                                                                                                                                                                    
-  Getting Help                                                                                                                
-                                                                                                                                                                                                                    
-  - Read .planning/PROJECT.md for project vision                                                                              
-  - Read .planning/STATE.md for current context                                                                               
-  - Check .planning/ROADMAP.md for phase status                                                             
-  - Run /gsd:progress to check where you're up to
+## Démarrage rapide
+
+```
+/gsd:new-project       # 1. Initialiser le projet
+/gsd:plan-phase 1      # 2. Planifier la première phase
+/gsd:execute-phase 1   # 3. Exécuter la phase
+```
+
+**Mise à jour :** `npx get-shit-done-cc@latest`
+
+---
+
+## Flux principal
+
+```
+/gsd:new-project → /gsd:plan-phase → /gsd:execute-phase → répéter
+```
+
+---
+
+## Initialisation du projet
+
+### `/gsd:new-project`
+Initialise un nouveau projet via un flux unifié.
+
+- Questions approfondies sur ce que vous construisez
+- Recherche domaine optionnelle (4 agents parallèles)
+- Définition des exigences v1/v2/hors-scope
+- Création de la roadmap avec phases et critères de succès
+
+**Artefacts créés :**
+| Fichier | Contenu |
+|---|---|
+| `PROJECT.md` | Vision et exigences |
+| `config.json` | Mode workflow (interactif/yolo) |
+| `REQUIREMENTS.md` | Exigences scopées avec REQ-IDs |
+| `ROADMAP.md` | Phases mappées aux exigences |
+| `STATE.md` | Mémoire projet |
+| `research/` | Recherche domaine (si sélectionnée) |
+
+```
+/gsd:new-project
+```
+
+---
+
+### `/gsd:map-codebase`
+Cartographie une codebase existante (projets brownfield).
+
+- Analyse avec des agents Explore en parallèle
+- Crée `.planning/codebase/` avec 7 documents (stack, architecture, structure, conventions, testing, integrations, concerns)
+- À utiliser **avant** `/gsd:new-project` sur une codebase existante
+
+```
+/gsd:map-codebase
+```
+
+---
+
+## Planification des phases
+
+### `/gsd:discuss-phase <numéro>`
+Articule votre vision d'une phase avant de planifier.
+
+- Capture comment vous imaginez la phase
+- Crée `CONTEXT.md` avec votre vision, essentiels et limites
+- `--batch` pose 2-5 questions à la fois au lieu d'une par une
+
+```
+/gsd:discuss-phase 2
+/gsd:discuss-phase 2 --batch
+/gsd:discuss-phase 2 --batch=3
+```
+
+---
+
+### `/gsd:research-phase <numéro>`
+Recherche complète de l'écosystème pour les domaines complexes.
+
+- Découvre le stack standard, les patterns d'architecture, les pièges
+- Crée `RESEARCH.md` avec la connaissance "comment les experts construisent ça"
+- Utile pour : 3D, jeux, audio, shaders, ML, domaines spécialisés
+
+```
+/gsd:research-phase 3
+```
+
+---
+
+### `/gsd:list-phase-assumptions <numéro>`
+Voir ce que Claude prévoit de faire avant de commencer.
+
+- Montre l'approche envisagée par Claude pour une phase
+- Permet de corriger si Claude a mal compris votre vision
+- Aucun fichier créé — sortie conversationnelle uniquement
+
+```
+/gsd:list-phase-assumptions 3
+```
+
+---
+
+### `/gsd:plan-phase <numéro>`
+Crée un plan d'exécution détaillé pour une phase spécifique.
+
+- Génère `.planning/phases/XX-phase-name/XX-YY-PLAN.md`
+- Décompose la phase en tâches concrètes et actionnables
+- Inclut critères de vérification et mesures de succès
+- Plusieurs plans par phase supportés (XX-01, XX-02, etc.)
+
+> **PRD Express :** Passez `--prd path/to/requirements.md` pour ignorer discuss-phase. Votre PRD devient des décisions verrouillées dans `CONTEXT.md`.
+
+```
+/gsd:plan-phase 1
+# → Crée .planning/phases/01-foundation/01-01-PLAN.md
+```
+
+---
+
+## Exécution
+
+### `/gsd:execute-phase <numéro>`
+Exécute tous les plans d'une phase, ou une vague spécifique.
+
+- Regroupe les plans par vague (depuis le frontmatter), exécute les vagues séquentiellement
+- Les plans dans chaque vague s'exécutent en parallèle via l'outil Task
+- `--wave N` exécute uniquement la Vague N
+- Vérifie l'objectif de la phase après complétion
+- Met à jour `REQUIREMENTS.md`, `ROADMAP.md`, `STATE.md`
+
+```
+/gsd:execute-phase 5
+/gsd:execute-phase 5 --wave 2
+```
+
+---
+
+## Routeur intelligent
+
+### `/gsd:do <description>`
+Route du texte libre vers la bonne commande GSD automatiquement.
+
+- Analyse le langage naturel pour trouver la commande GSD correspondante
+- Agit comme un dispatcher — ne fait jamais le travail lui-même
+- Résout l'ambiguïté en demandant de choisir parmi les meilleures correspondances
+
+```
+/gsd:do fix the login button
+/gsd:do refactor the auth system
+/gsd:do I want to start a new milestone
+```
+
+---
+
+## Mode rapide
+
+### `/gsd:quick [--full] [--discuss] [--research]`
+Exécute de petites tâches ad-hoc avec les garanties GSD mais sans les agents optionnels.
+
+- Spawne planner + executor (ignore researcher, checker, verifier par défaut)
+- Les tâches rapides vivent dans `.planning/quick/` séparément des phases planifiées
+- Met à jour `STATE.md` (pas `ROADMAP.md`)
+
+**Flags :**
+| Flag | Effet |
+|---|---|
+| `--discuss` | Discussion légère pour identifier les zones grises avant de planifier |
+| `--research` | Agent de recherche ciblée avant planification |
+| `--full` | Ajoute la vérification du plan (max 2 itérations) et vérification post-exécution |
+
+> Les flags sont composables : `--discuss --research --full` donne le pipeline qualité complet.
+
+```
+/gsd:quick
+/gsd:quick --research --full
+# → Crée .planning/quick/NNN-slug/PLAN.md et SUMMARY.md
+```
+
+---
+
+### `/gsd:fast [description]`
+Exécute une tâche triviale inline — sans sous-agents, sans fichiers de planning.
+
+- Pour les tâches trop petites pour justifier une planification (typos, configs, commits oubliés)
+- Aucun `PLAN.md` ni `SUMMARY.md` créé
+- ≤ 3 fichiers modifiés — redirige vers `/gsd:quick` si la tâche est non-triviale
+- Commit atomique avec message conventionnel
+
+```
+/gsd:fast "fix the typo in README"
+/gsd:fast "add .env to gitignore"
+```
+
+---
+
+## Gestion de la roadmap
+
+### `/gsd:add-phase <description>`
+Ajoute une nouvelle phase à la fin du milestone actuel.
+
+```
+/gsd:add-phase "Add admin dashboard"
+```
+
+---
+
+### `/gsd:insert-phase <après> <description>`
+Insère un travail urgent comme phase décimale entre des phases existantes.
+
+- Crée une phase intermédiaire (ex: 7.1 entre 7 et 8)
+- Maintient l'ordre des phases
+
+```
+/gsd:insert-phase 7 "Fix critical auth bug"
+# → Crée la Phase 7.1
+```
+
+---
+
+### `/gsd:remove-phase <numéro>`
+Supprime une phase future et renumérote les phases suivantes.
+
+- Supprime le répertoire de phase et toutes les références
+- Fonctionne uniquement sur les phases futures (non démarrées)
+- Commit git préserve l'historique
+
+```
+/gsd:remove-phase 17
+# → Phase 17 supprimée, phases 18-20 deviennent 17-19
+```
+
+---
+
+## Gestion des milestones
+
+### `/gsd:new-milestone <nom>`
+Démarre un nouveau milestone via un flux unifié.
+
+- Questions approfondies sur ce que vous construisez ensuite
+- Recherche domaine optionnelle (4 agents parallèles)
+- `--reset-phase-numbers` redémarre la numérotation à la Phase 1
+
+```
+/gsd:new-milestone "v2.0 Features"
+/gsd:new-milestone --reset-phase-numbers "v2.0 Features"
+```
+
+---
+
+### `/gsd:complete-milestone <version>`
+Archive le milestone complété et prépare pour la prochaine version.
+
+- Crée une entrée `MILESTONES.md` avec les stats
+- Archive les détails complets dans `milestones/`
+- Crée un tag git pour la release
+
+```
+/gsd:complete-milestone 1.0.0
+```
+
+---
+
+## Suivi de progression
+
+### `/gsd:progress`
+Vérifie le statut du projet et route intelligemment vers la prochaine action.
+
+- Affiche une barre de progression visuelle et le pourcentage de complétion
+- Résume les travaux récents depuis les fichiers SUMMARY
+- Affiche la position actuelle et ce qui vient ensuite
+- Propose d'exécuter le prochain plan ou de le créer s'il manque
+
+```
+/gsd:progress
+```
+
+---
+
+## Gestion de session
+
+### `/gsd:resume-work`
+Reprend le travail d'une session précédente avec une restauration complète du contexte.
+
+```
+/gsd:resume-work
+```
+
+---
+
+### `/gsd:pause-work`
+Crée un handoff de contexte lors d'une pause en milieu de phase.
+
+- Crée un fichier `.continue-here` avec l'état actuel
+- Met à jour la section de continuité de session de `STATE.md`
+
+```
+/gsd:pause-work
+```
+
+---
+
+## Débogage
+
+### `/gsd:debug [description du problème]`
+Débogage systématique avec état persistant entre les resets de contexte.
+
+- Collecte les symptômes via des questions adaptatives
+- Crée `.planning/debug/[slug].md` pour suivre l'investigation
+- Méthode scientifique : preuves → hypothèse → test
+- **Survit au `/clear`** — relancer `/gsd:debug` sans args pour reprendre
+- Archive les problèmes résolus dans `.planning/debug/resolved/`
+
+```
+/gsd:debug "login button doesn't work"
+/gsd:debug   # reprend la session active
+```
+
+---
+
+## Notes rapides
+
+### `/gsd:note <texte>`
+Capture d'idée zéro-friction — une commande, sauvegarde instantanée.
+
+- Sauvegarde une note horodatée dans `.planning/notes/`
+- `--global` sauvegarde dans `$HOME/.claude/notes/` (hors projet)
+- Fonctionne sans projet actif
+
+| Sous-commande | Action |
+|---|---|
+| `append` (défaut) | Ajoute une note |
+| `list` | Liste toutes les notes |
+| `promote <n>` | Convertit la note n en todo structuré |
+
+```
+/gsd:note refactor the hook system
+/gsd:note list
+/gsd:note promote 3
+/gsd:note --global cross-project idea
+```
+
+---
+
+## Gestion des todos
+
+### `/gsd:add-todo [description]`
+Capture une idée ou tâche comme todo depuis la conversation courante.
+
+- Extrait le contexte de la conversation (ou utilise la description fournie)
+- Crée un fichier todo structuré dans `.planning/todos/pending/`
+- Vérifie les doublons avant de créer
+
+```
+/gsd:add-todo                        # déduit depuis la conversation
+/gsd:add-todo Add auth token refresh
+```
+
+---
+
+### `/gsd:check-todos [area]`
+Liste les todos en attente et en sélectionne un pour travailler.
+
+- Liste tous les todos avec titre, zone, âge
+- Filtre optionnel par zone
+- Route vers l'action appropriée (travailler maintenant, ajouter à une phase, brainstorm)
+
+```
+/gsd:check-todos
+/gsd:check-todos api
+```
+
+---
+
+## Tests d'acceptation (UAT)
+
+### `/gsd:verify-work [phase]`
+Valide les fonctionnalités construites via UAT conversationnel.
+
+- Extrait les livrables testables depuis les fichiers `SUMMARY.md`
+- Présente les tests un par un (réponses oui/non)
+- Diagnostique automatiquement les échecs et crée des plans de correction
+
+```
+/gsd:verify-work 3
+```
+
+---
+
+## Livraison
+
+### `/gsd:ship [phase]`
+Crée une PR depuis le travail d'une phase complétée.
+
+- Push la branche vers le remote
+- Crée une PR avec le résumé depuis `SUMMARY.md`, `VERIFICATION.md`, `REQUIREMENTS.md`
+- Demande optionnellement une code review
+- Met à jour `STATE.md` avec le statut de livraison
+
+> **Prérequis :** Phase vérifiée, `gh` CLI installé et authentifié.
+
+```
+/gsd:ship 4
+/gsd:ship 4 --draft
+```
+
+---
+
+### `/gsd:review --phase N [--gemini] [--claude] [--codex] [--all]`
+Peer review cross-IA — invoque des CLIs externes pour revoir les plans de phase indépendamment.
+
+- Détecte les CLIs disponibles (gemini, claude, codex)
+- Chaque CLI revoit les plans indépendamment avec le même prompt structuré
+- Produit `REVIEWS.md` avec les retours par reviewer et un résumé consensus
+
+```
+/gsd:review --phase 3 --all
+# Réinjecter : /gsd:plan-phase N --reviews
+```
+
+---
+
+### `/gsd:pr-branch [target]`
+Crée une branche propre pour les PRs en filtrant les commits `.planning/`.
+
+- Classifie les commits : code-only (inclus), planning-only (exclu), mixte (inclus sans `.planning/`)
+- Les reviewers ne voient que les changements de code
+
+```
+/gsd:pr-branch
+/gsd:pr-branch main
+```
+
+---
+
+### `/gsd:plant-seed [idée]`
+Capture une idée prospective avec des conditions de déclenchement.
+
+- Les seeds préservent POURQUOI, QUAND les remonter, et des fils vers le code lié
+- Se remonte automatiquement lors de `/gsd:new-milestone` quand les conditions correspondent
+
+```
+/gsd:plant-seed "add real-time notifications when we build the events system"
+```
+
+---
+
+## Audit
+
+### `/gsd:audit-uat`
+Audit cross-phases de tous les items UAT et de vérification en attente.
+
+- Scanne chaque phase pour les items en attente, ignorés, bloqués, et nécessitant une intervention humaine
+- Croise avec la codebase pour détecter la documentation périmée
+- Produit un plan de test humain priorisé
+- À utiliser avant de démarrer un nouveau milestone
+
+```
+/gsd:audit-uat
+```
+
+---
+
+### `/gsd:audit-milestone [version]`
+Audite la complétion du milestone par rapport à l'intention originale.
+
+- Lit tous les fichiers `VERIFICATION.md` des phases
+- Vérifie la couverture des exigences
+- Spawne un checker d'intégration pour le câblage cross-phases
+- Crée `MILESTONE-AUDIT.md` avec les gaps et la dette technique
+
+```
+/gsd:audit-milestone
+```
+
+---
+
+### `/gsd:plan-milestone-gaps`
+Crée des phases pour combler les gaps identifiés par l'audit.
+
+- Lit `MILESTONE-AUDIT.md` et regroupe les gaps en phases
+- Priorise par priorité d'exigence (must/should/nice)
+- Ajoute les phases de comblement à `ROADMAP.md`
+
+```
+/gsd:plan-milestone-gaps
+```
+
+---
+
+## Configuration
+
+### `/gsd:settings`
+Configure les toggles du workflow et le profil de modèle de manière interactive.
+
+- Toggle les agents researcher, plan checker, verifier
+- Sélectionne le profil de modèle
+- Met à jour `.planning/config.json`
+
+```
+/gsd:settings
+```
+
+---
+
+### `/gsd:set-profile <profil>`
+Change rapidement le profil de modèle pour les agents GSD.
+
+| Profil | Description |
+|---|---|
+| `quality` | Opus partout sauf vérification |
+| `balanced` | Opus pour planning, Sonnet pour exécution (défaut) |
+| `budget` | Sonnet pour l'écriture, Haiku pour recherche/vérification |
+| `inherit` | Utilise le modèle de session actuel pour tous les agents |
+
+```
+/gsd:set-profile budget
+```
+
+---
+
+## Utilitaires
+
+| Commande | Description |
+|---|---|
+| `/gsd:cleanup` | Archive les répertoires de phases des milestones complétés |
+| `/gsd:help` | Affiche cette référence des commandes |
+| `/gsd:update` | Met à jour GSD avec preview du changelog |
+| `/gsd:join-discord` | Rejoindre la communauté Discord GSD |
+
+---
+
+## Structure des fichiers
+
+```
+.planning/
+├── PROJECT.md            # Vision du projet
+├── ROADMAP.md            # Breakdown des phases actuel
+├── STATE.md              # Mémoire et contexte projet
+├── RETROSPECTIVE.md      # Rétrospective vivante (mise à jour par milestone)
+├── config.json           # Mode workflow & gates
+├── todos/
+│   ├── pending/          # Todos en attente
+│   └── done/             # Todos complétés
+├── debug/
+│   └── resolved/         # Issues résolues archivées
+├── milestones/
+│   ├── v1.0-ROADMAP.md
+│   ├── v1.0-REQUIREMENTS.md
+│   └── v1.0-phases/
+│       ├── 01-foundation/
+│       └── 02-core-features/
+├── codebase/             # Carte codebase (projets brownfield)
+│   ├── STACK.md
+│   ├── ARCHITECTURE.md
+│   ├── STRUCTURE.md
+│   ├── CONVENTIONS.md
+│   ├── TESTING.md
+│   ├── INTEGRATIONS.md
+│   └── CONCERNS.md
+└── phases/
+    ├── 01-foundation/
+    │   ├── 01-01-PLAN.md
+    │   └── 01-01-SUMMARY.md
+    └── 02-core-features/
+        ├── 02-01-PLAN.md
+        └── 02-01-SUMMARY.md
+```
+
+---
+
+## Modes de workflow
+
+### Mode Interactif
+- Confirme chaque décision majeure
+- Pause aux checkpoints pour approbation
+- Plus de guidage tout au long du processus
+
+### Mode YOLO
+- Auto-approuve la plupart des décisions
+- Exécute les plans sans confirmation
+- S'arrête uniquement aux checkpoints critiques
+
+> Configurable à tout moment dans `.planning/config.json`
+
+---
+
+## Configuration avancée (`.planning/config.json`)
+
+| Clé | Défaut | Description |
+|---|---|---|
+| `planning.commit_docs` | `true` | `false` = artefacts gardés en local, non committés |
+| `planning.search_gitignored` | `false` | `true` = inclut `.planning/` dans les recherches ripgrep |
+
+```json
+{
+  "planning": {
+    "commit_docs": false,
+    "search_gitignored": true
+  }
+}
+```
+
+> `commit_docs: false` est utile pour les contributions OSS, projets clients, ou garder le planning privé. Pensez à ajouter `.planning/` au `.gitignore`.
+
+---
+
+## Workflows courants
+
+**Démarrer un nouveau projet :**
+```
+/gsd:new-project      # questioning → research → requirements → roadmap
+/clear
+/gsd:plan-phase 1
+/clear
+/gsd:execute-phase 1
+```
+
+**Reprendre après une pause :**
+```
+/gsd:progress         # voir où vous en étiez et continuer
+```
+
+**Travail urgent en milieu de milestone :**
+```
+/gsd:insert-phase 5 "Critical security fix"
+/gsd:plan-phase 5.1
+/gsd:execute-phase 5.1
+```
+
+**Compléter un milestone :**
+```
+/gsd:complete-milestone 1.0.0
+/clear
+/gsd:new-milestone    # questioning → research → requirements → roadmap
+```
+
+**Capturer des idées pendant le travail :**
+```
+/gsd:add-todo                    # déduit depuis la conversation
+/gsd:add-todo Fix modal z-index  # description explicite
+/gsd:check-todos                 # revoir et travailler sur les todos
+/gsd:check-todos api             # filtrer par zone
+```
+
+**Déboguer un problème :**
+```
+/gsd:debug "form submission fails silently"
+# ... investigation, contexte se remplit ...
+/clear
+/gsd:debug   # reprendre là où vous vous êtes arrêtés
+```
+
+---
+
+## Où trouver de l'aide
+
+- `.planning/PROJECT.md` — vision du projet
+- `.planning/STATE.md` — contexte actuel
+- `.planning/ROADMAP.md` — statut des phases
+- `/gsd:progress` — voir où vous en êtes
